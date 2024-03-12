@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 const DATA_KEY = 'feedback-form-state';
 
 // Создание объекта параметров формы
-const formData = {};
+let formData = {};
 
 const refs = {
     form: document.querySelector('.feedback-form'),
@@ -31,12 +31,15 @@ function onFormSubmit(event) {
     event.preventDefault();
 
     console.log(formData);
-    
+
     // Очистка формы после отправки
     event.currentTarget.reset();
 
     // Очистка локального хранилища после отправки
     localStorage.removeItem(DATA_KEY);
+
+    // Очистка объекта параметров формы
+    formData = {};
 };
 
 function loadForm() {
@@ -52,5 +55,7 @@ function loadForm() {
         // Если объект есть, в поле message добавить message из локального хранилища
         // или пустую строку
         refs.form.message.value = saveData.message || '';
+        // Передаёт в объект пераметров данные из локального хранилища
+        formData = saveData;
     }
 }
